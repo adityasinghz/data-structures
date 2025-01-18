@@ -1,35 +1,39 @@
 class Solution {
 public:
-    void merge(vector<int>&a, int l ,int mid, int h){
-        int j=mid+1;
-        int i=l;
-        int k=l;
-        int b[h+1];
-        while(i<=mid&&j<=h){
-            if(a[i]<a[j])
-                b[k++]=a[i++];
-            else
-                b[k++]=a[j++];
+   void merge(vector<int>&nums, int low, int mid, int high){
+        int i = low;
+        int j = mid+1;
+        int k = low;
+        int aux[high+1];
+        while(i<=mid && j<=high){
+           if(nums[i] > nums[j])
+              aux[k++] = nums[j++];
+           else
+              aux[k++] = nums[i++];
         }
-        while(i<=mid)
-            b[k++]=a[i++];
-        while(j<=h)
-            b[k++]=a[j++];
+
+        while(i<=mid){
+            aux[k++] = nums[i++];
+        }
         
-        for(int i=l;i<=h;i++){
-            a[i]=b[i];
+        while(j<=high){
+            aux[k++] = nums[j++];
         }
-    }
-    void mergesort(vector<int>&a,int l, int h){
-        if(l<h){
-            int mid= l+(h-l)/2;
-            mergesort(a,l,mid);
-            mergesort(a,mid+1,h);
-            merge(a,l,mid,h);
+
+        for(int l = low; l<=high; l++)
+          nums[l] = aux[l];
+   }
+   void mergeSort(vector<int>&nums, int low, int high){
+        if(low < high){
+            int mid = low + (high - low)/2;
+            mergeSort(nums, low, mid);
+            mergeSort(nums, mid+1, high);
+            merge(nums,low, mid, high);
         }
-    }
+   }
     vector<int> sortArray(vector<int>& nums) {
-        mergesort(nums,0,nums.size()-1);
-        return nums;
+       int n = nums.size();
+       mergeSort(nums, 0 , n-1);
+       return nums;
     }
 };
