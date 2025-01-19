@@ -19,6 +19,6 @@ This repository is dedicated to my daily problem-solving journey in data structu
 If you find an error or have suggestions for optimizing solutions, feel free to open an issue or submit a pull request.
 
 ## Let's Connect!
-- [GitHub Profile](https://github.com/YourUsername)
+- [GitHub Profile](https://github.com/adityasinghz)
 
 Happy Coding! 😊
