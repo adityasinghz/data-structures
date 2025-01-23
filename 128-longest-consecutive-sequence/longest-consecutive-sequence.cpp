@@ -17,9 +17,7 @@ public:
                 cout<<topElement<<'-'<<*prev(st.end())<<'\n';
                 ct++;
             }else{
-                cout<<"break\n";
                 ans = max(ans,ct);
-                cout<<"ans "<<ans<<'\n';
                 ct=1;
             }
         }
