@@ -1,51 +1,57 @@
 class Solution {
 public:
-    int find(int x, vector<int>& par) {
-        if (x != par[x]) 
-            par[x] = find(par[x], par); // Path Compression
-        return par[x];
+
+    int find(int x , vector<int>&par){
+       if(x == par[x]) return x;
+       return par[x] = find(par[x] , par);
     }
 
-    void disjoint(int x, int z, vector<int>& par, vector<int>& len) {
-        int par_x = find(x, par);
-        int par_z = find(z, par);
+    void disjoint( int x , int z , vector<int>&par, vector<int>&len){
+       
+       int par_x = find(x , par);
+       int par_z = find(z , par);
 
-        if (par_x != par_z) {
-            if (len[par_z] > len[par_x]) {
-                par[par_x] = par_z;
-                len[par_z] += len[par_x];
-            } else {
-                par[par_z] = par_x;
-                len[par_x] += len[par_z];
-            }
-        }
-    }
+       if(par_x != par_z){
+         
+         if(len[par_z] > len[par_x]){
+            len[par_z] += len[par_x];
+            par[par_x] = par_z;
+         }else{
+            len[par_x]+=len[par_z];
+            par[par_z] = par_x;
+         }
 
+       }
+    } 
     int largestIsland(vector<vector<int>>& grid) {
         int m = grid.size();
         int n = grid[0].size();
-        vector<int> len(m * n, 1);
-        vector<int> par(m * n);
-        vector<pair<int, int>> directions = {{-1,0}, {0,-1}, {0,1}, {1,0}};
+        vector<int>len(m*n,1);
+        vector<int>par(m*n);
+         
+        vector<pair<int,int>>directions = {{-1,0}, {0,-1}, {0,1} , {1, 0}};
 
-        for (int i = 0; i < m * n; i++) par[i] = i;
+        for(int i=0;i<par.size();i++){
+            par[i] = i;
+        }
+        for( int i = 0; i <m ; i++){
+            for(int j = 0; j< n ; j++){
+                int origin  = i*m + j;
+                if(grid[i][j] == 1){
+                     for(auto direction : directions){
+                        int row = i + direction.first;
+                        int col = j + direction.second;
+                        int neighbor  = row*m + col;
 
-        // Step 1: Connect adjacent 1s using union-find
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (grid[i][j] == 1) {
-                    int origin = i * n + j;
-                    for (auto [dx, dy] : directions) {
-                        int row = i + dx, col = j + dy;
-                        if (row >= 0 && col >= 0 && row < m && col < n && grid[row][col] == 1) {
-                            disjoint(origin, row * n + col, par, len);
-                        }
-                    }
+                        if(row < 0 || col < 0 || row >= m || col >= n || !grid[row][col])continue;
+                         
+                        disjoint(origin , neighbor, par, len);
+                        
+                     }
                 }
             }
         }
 
-        // Step 2: Compute size of each connected component
         unordered_map<int, int> freq;
         int max_area = 0;
 
@@ -57,26 +63,37 @@ public:
             }
         }
 
-        // Step 3: Try flipping each '0' to '1' and compute new area
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (grid[i][j] == 0) {
+        for(int i = 0;i<m;i++){
+            for(int j = 0;j<n;j++){
+                if(grid[i][j]==0){
                     int area = 1;
-                    unordered_set<int> seen;
-                    for (auto [dx, dy] : directions) {
-                        int row = i + dx, col = j + dy;
-                        if (row >= 0 && col >= 0 && row < m && col < n && grid[row][col] == 1) {
-                            int parent = find(row * n + col, par);
-                            if (seen.insert(parent).second) {
-                                area += freq[parent];
-                            }
-                        }
+                    unordered_set<int>st;
+                    for(auto direction : directions){
+                      int row =  i + direction.first;
+                      int col =  j + direction.second;
+                      if(row < 0 || col < 0 || row >= m || col >= n || !grid[row][col])continue;
+                      int ori =  row*m+col;
+                      int parent =find(par[ori],par);
+                      if(st.find(parent)==st.end()){
+                        area+=freq[parent];
+                        st.insert(parent);
+                      }
                     }
-                    max_area = max(max_area, area);
+                    max_area = max(max_area, area); 
                 }
             }
         }
-
+       
+        
         return max_area;
     }
 };
+
+/*
+
+[[1,0,1],
+ [0,0,0],
+ [0,1,1]]
+
+
+*/
