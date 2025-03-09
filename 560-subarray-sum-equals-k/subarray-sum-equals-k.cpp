@@ -12,9 +12,8 @@ public:
 
             int rem = sum - k;
 
-            if(prefixSum.find(rem)!=prefixSum.end()){
                 count+=prefixSum[rem];
-            }
+            
             prefixSum[sum]++;
             
         }
