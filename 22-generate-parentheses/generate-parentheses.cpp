@@ -1,35 +1,20 @@
 class Solution {
 public:
-    bool validPara(string s){
-         stack<char> stk;
-    for (char c : s) {
-        if (!stk.empty() && stk.top() == '(' && c == ')') {
-            stk.pop();
-        } else if (c == '(') {
-            stk.push(c);
-        } else if (c == ')') {
-            // This means there's no matching '(' before it
-            return false;
+    void dfs(int open, int close, int n, string s, vector<string>&ans){
+        if(open == close && open+close==2*n){
+           ans.push_back(s);
+           return;
         }
-    }
-    return stk.empty();
-    }
-    void generatePara(int n,string s, vector<string>&ans){
-       if(s.size()==2*n){
-        if(validPara(s)) ans.push_back(s);
-        return;
-       }
-       s.push_back('(');
-       generatePara(n, s,ans);
-       s.pop_back();
-       s.push_back(')');
-       generatePara(n, s,ans);
-       s.pop_back();
+        if(open<n){
+          dfs(open+1,close,n,s+"(",ans);
+        }
+        if(close<open){
+          dfs(open,close+1,n,s+")",ans);
+        }
     }
     vector<string> generateParenthesis(int n) {
         vector<string>ans;
-        string s;
-        generatePara(n, s,ans);
+        dfs(0,0,n,"",ans);
         return ans;
     }
 };
