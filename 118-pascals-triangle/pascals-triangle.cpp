@@ -1,19 +1,18 @@
 class Solution {
 public:
     vector<vector<int>> generate(int numRows) {
-        vector<vector<int>>ans={{1}};
-        for(int i = 1;i<numRows;i++){
-           vector<int>temp(i+1);
-           int k =0;
-           temp[k++]=1;
-           temp[i]=1;
-           
-           for(int j = 1 ; j < ans[i-1].size();j++){
-              int sum = ans[i-1][j-1] + ans[i-1][j];
-              temp[k++]=sum;
-           }
-           ans.push_back(temp);
+        if(numRows==1) return {{1}};
+        if(numRows==2) return {{1},{1,1}};
+        vector<vector<int>>res{{1},{1,1}};
+
+        for(int i=2;i<numRows;i++){
+            vector<int>ans{1};
+            for(int j=0;j<res.back().size()-1;j++){
+               ans.push_back(res.back()[j] + res.back()[j+1]);
+            }
+            ans.push_back(1);
+            res.push_back(ans);
         }
-        return ans;
+        return res;
     }
 };
