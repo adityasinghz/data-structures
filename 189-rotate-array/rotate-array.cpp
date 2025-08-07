@@ -6,7 +6,7 @@ public:
         rev(0, k, nums);
         rev(k, nums.size(), nums);
     }
-    void rev(int low , int high , vector<int>&nums){
-          reverse(nums.begin()+low, nums.begin()+high);
+    void rev(int low, int high, vector<int>&nums){
+         reverse(nums.begin() + low, nums.begin() + high);
     }
 };
