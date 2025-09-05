@@ -9,15 +9,14 @@
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        map<ListNode*, int>freq;
-        while(headA){
-         freq[headA]=true; 
-         headA=headA->next;
+        if(!headA || !headB) return nullptr;
+
+        ListNode* a = headA; ListNode* b = headB;
+
+        while(a!=b){
+           a = a?a->next: headA;
+           b = b?b->next: headB;
         }
-        while(headB) {
-            if(freq[headB]) return headB;
-            headB = headB->next;
-        }
-        return nullptr;
+        return a;
     }
 };
