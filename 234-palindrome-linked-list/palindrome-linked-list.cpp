@@ -11,19 +11,33 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        stack<int>stk;
-        ListNode *p = head;
-        while(p){
-            stk.push(p->val);
-            p = p->next;
-        }
+        ListNode *slow = head;
+        ListNode *fast = head;
 
-        while(!stk.empty()){
-            if(stk.top()!=head->val) return false;
-                head=head->next;
-                stk.pop();
-            
+        while(fast&&fast->next){
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        ListNode* secondHead = reverse(slow);
+
+        while(secondHead){
+           if(head->val!=secondHead->val) return false;
+           head = head->next;
+           secondHead = secondHead->next;
         }
         return true;
+    }
+
+    ListNode* reverse(ListNode *head){
+        ListNode* prev = nullptr;
+        ListNode* next = nullptr;
+
+        while(head){
+            next = head->next;
+            head->next = prev;
+            prev = head;
+            head = next;
+        }
+        return prev;
     }
 };
