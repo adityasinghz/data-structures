@@ -1,19 +1,19 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-         int len = s.size();
-         vector<int>lastSeen(256,-1);
-         int i = -1;
-         int j =  0;
-         int maxi = 0;
-         while( j < len){
-            if(lastSeen[s[j]] > i){
-                i = lastSeen[s[j]];
+        int i = 0;
+        int j = 0;
+        map<int,int>indexes;
+        int ans = 0;
+        while( j < s.size()){
+            if(indexes.find(s[j])!=indexes.end() && indexes[s[j]] + 1 > i){ 
+                i = indexes[s[j]] + 1;
             }
-            lastSeen[s[j]] = j;
-            maxi = max(maxi, j - i);
+            cout<<" j "<<j<<' '<<" i "<<i<<'\n';
+            ans = max(ans , j - i + 1);
+            indexes[s[j]] = j;
             j++;
-         }
-        return maxi;
+        }
+        return ans;
     }
 };
