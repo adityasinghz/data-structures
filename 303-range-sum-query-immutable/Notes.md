@@ -1,1 +1,1 @@
-<h2>range-sum-query-immutable Notes</h2><hr>[ Time taken: 4 hrs 50 m 37 s ]
+<h2>range-sum-query-immutable Notes</h2><hr>[ Time taken: 3 hrs 51 m 36 s ]
