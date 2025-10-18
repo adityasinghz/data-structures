@@ -1,18 +1,18 @@
 class Solution {
 public:
     bool isAnagram(string s, string t) {
-        if(s.size() != t.size()) return false;
+        if(s.size()!=t.size()) return 0;
+        unordered_map<char,int>f;
 
-        map<char, int>freq;
-
-        for(auto c : s){
-            freq[c]++;
+        for(char c : s){
+           f[c]++;
         }
 
-        for(auto c : t){
-            if(freq[c]==0) return false;
-            freq[c]--;
+        for(char c : t){
+            if(!f[c]) return 0;
+            f[c]--;
         }
         return true;
+
     }
 };
