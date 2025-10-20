@@ -1,19 +1,22 @@
 class Solution {
 public:
-    vector<vector<int>> mergeInterval(vector<vector<int>>& intervals){
-         vector<vector<int>>res;
-         int n = intervals.size();
-         res.push_back(intervals[0]);
-         for(int i=1; i<n; i++){
-            if(res.back()[1] >= intervals[i][0]) res.back()[1] = max(res.back()[1], intervals[i][1]);
-            else res.push_back(intervals[i]);
-         }
-         return res;
-    }
     vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        vector<vector<int>>res;
+        int i = 0;
+        int n = intervals.size();
+        for(auto interval : intervals){
+            if(newInterval[1] < interval[0]) break;
+            else if(newInterval[0] > interval[1]) res.push_back(interval);
+            else{
+                newInterval[0] = min(newInterval[0], interval[0]);
+                newInterval[1] = max(newInterval[1], interval[1]);
+            } 
+            i++;
+        }
+        res.push_back(newInterval);
 
-         intervals.push_back(newInterval);
-         sort(intervals.begin(),intervals.end());
-         return mergeInterval(intervals);
+        while( i < n) res.push_back(intervals[i++]);
+
+        return res;
     }
 };
