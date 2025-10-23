@@ -1,39 +1,27 @@
 class Solution {
 public:
-
-vector<string> split(string s, char delimiter) {
-    vector<string> tokens;
-    string token;
-    stringstream ss(s);
-    while (getline(ss, token, delimiter)) {
-        tokens.push_back(token);
+    vector<string> split(string s, char delimeter){
+       stringstream ss(s);
+       vector<string>tokens;
+       string token;
+       while(getline(ss, token, delimeter)){
+          tokens.push_back(token);
+       } 
+       return tokens;
     }
-    return tokens;
-}
 
-    string simplifyPath(string path) {
-        vector<string> tokens = split(path, '/');
-        stack<string>stk,stk2;
+    string simplifyPath(string s) {
+        vector<string>stk;
+        vector<string> splittedS = split(s, '/');
         string res;
-        for(auto token : tokens){
-            if(token=="" || token==".") continue;
-            else if(token==".."){
-             if(!stk.empty()) stk.pop();
-            }else stk.push(token);
+        int n = splittedS.size();
+        for(int i=0;i<n;i++){
+            if(splittedS[i]=="" || splittedS[i]==".") continue;
+            else if(splittedS[i]=="..") {if(!stk.empty()) stk.pop_back();}
+            else stk.push_back(splittedS[i]);
         }
-
-         while(!stk.empty()){
-            stk2.push(stk.top());
-            stk.pop();
-        }
-
-        while(!stk2.empty()){
-            res+=stk2.top();
-            res+='/';
-            stk2.pop();
-        }
-        if(!res.empty()) res.pop_back();
-       
-        return "/"+res;
+        cout<<stk.size();
+        for(auto s : stk) res+=("/" + s);
+        return res.empty()? "/" : res;
     }
 };
