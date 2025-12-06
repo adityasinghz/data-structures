@@ -1,27 +1,25 @@
 class Solution {
 public:
-    void fun(vector<int>&ds, unordered_map<int,int>freq, vector<int>&nums, vector<vector<int>>&ans){
-
+    void backtrack(vector<int>&ds,vector<int>&nums,unordered_map<int,bool>&freq,vector<vector<int>>&res){
         if(ds.size()==nums.size()){
-          ans.push_back(ds);
-          return;
+            res.push_back(ds);
+            return;
         }
-
         for(int i=0;i<nums.size();i++){
             if(!freq[nums[i]]){
+                freq[nums[i]] = true;
                 ds.push_back(nums[i]);
-                freq[nums[i]]=true;
-                fun(ds, freq, nums, ans);
+                backtrack(ds,nums,freq,res);
+                freq[nums[i]] = false;
                 ds.pop_back();
-                freq[nums[i]]=false;
             }
         }
     }
     vector<vector<int>> permute(vector<int>& nums) {
+        unordered_map<int,bool>freq;
         vector<int>ds;
-        unordered_map<int,int>freq;
-        vector<vector<int>>ans;
-        fun(ds,freq,nums,ans);
-        return ans;
+        vector<vector<int>>res;
+        backtrack(ds,nums,freq,res);
+        return res;
     }
 };
