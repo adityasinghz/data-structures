@@ -9,7 +9,7 @@ public:
          int m = stoi(date.substr(5,2));
          int d = stoi(date.substr(8,2));
          int totalDays = 0;
-         for(int i=0;i<y;i++){
+         for(int i=1971;i<y;i++){
             totalDays+=isLeapYear(i)? 366: 365;
          }
          for(int i=1;i<m;i++){
