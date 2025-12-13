@@ -1,17 +1,9 @@
 class Solution {
 public:
-    bool isOdd(int num){
-      return num%2;
-    }
     int sumOddLengthSubarrays(vector<int>& arr) {
-        int n = arr.size();
-        int res=0;
+        int res = 0, n = arr.size();
         for(int i=0;i<n;i++){
-            int sum = 0;
-            for(int j=i;j<n;j++){
-               sum+=arr[j];
-               if(isOdd(j-i+1)) res+=sum;
-            }
+            res+=((i+1)*(n-i)+1)/2 * arr[i];
         }
         return res;
     }
