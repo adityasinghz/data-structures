@@ -1,13 +1,17 @@
 class Solution {
 public:
     bool isPalindrome(string s) {
-        string ori;
-        for(auto c  : s) if(isalpha(c)|| isdigit(c))ori+=tolower(c);
+        int low = 0;
+        int high = s.size() - 1;
 
-        string rev = ori;
-     
-        reverse(rev.begin(),rev.end());
-        cout<<ori<<' '<<rev;
-        return rev==ori;
+        while( low < high){
+            if(!isalnum(s[low])){ low++; continue;}
+            if(!isalnum(s[high])){high--;continue;}
+            
+            if(tolower(s[low])!=tolower(s[high])) return false; 
+            low++;
+            high--;
+        }
+        return true;
     }
 };
