@@ -3,15 +3,16 @@ public:
     int lengthOfLongestSubstring(string s) {
         int i = 0;
         int j = 0;
-        map<int,int>indexes;
+        int n = s.size();
         int ans = 0;
-        while( j < s.size()){
-            if(indexes.find(s[j])!=indexes.end() && indexes[s[j]] + 1 > i){ 
-                i = indexes[s[j]] + 1;
+        unordered_map<char,int>freq;
+        while( j < n){
+            if(freq.count(s[j]) > 0 && i <= freq[s[j]]){
+                i = freq[s[j]]+1;
             }
-            cout<<" j "<<j<<' '<<" i "<<i<<'\n';
-            ans = max(ans , j - i + 1);
-            indexes[s[j]] = j;
+            freq[s[j]] = j;
+            cout<<s[j]<<j<<' '<<i<<' '<<(j-i+1)<<'\n';
+            ans = max(ans, j - i + 1);
             j++;
         }
         return ans;
