@@ -1,21 +1,26 @@
 class Solution {
-    private int solve(int m, int n, int[][] grid, int[][] dp){
-        if( m < 0 || n < 0 || grid[m][n]==1) return 0;
-        
-        if( m == 0 && n == 0) return 1;
-
-        if(dp[m][n]!=-1) return dp[m][n];
-
-
-        return dp[m][n] = solve(m-1,n,grid,dp) + solve(m,n-1,grid,dp);
-    }
     public int uniquePathsWithObstacles(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
-        int[][] dp = new int[m+1][n+1];
-        for(int i=0;i<m;i++){
-          Arrays.fill(dp[i],-1);
+        int[][] dp = new int[m][n];
+        for(int col=0;col<n;col++){
+            if(grid[0][col]==1) dp[0][col] = 0;
+            else if(col > 0 && grid[0][col-1]==1) {grid[0][col] = 1; dp[0][col]=0;}
+            else dp[0][col] = 1;
         }
-        return solve(m-1,n-1,grid,dp);
+
+        for(int row = 0; row < m; row++){
+            if(grid[row][0]==1) dp[row][0] = 0;
+            else if(row > 0 && grid[row-1][0]==1){grid[row][0] = 1; dp[row][0]=0;}
+            else dp[row][0] = 1;
+        }
+
+        for(int i=1; i < m; i++){
+            for(int j=1; j < n; j++){
+                if(grid[i][j]==1) continue;
+                dp[i][j] = dp[i-1][j] + dp[i][j-1];
+            }
+        }
+        return dp[m-1][n-1];
     }
 }
