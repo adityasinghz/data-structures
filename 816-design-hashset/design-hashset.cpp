@@ -1,22 +1,31 @@
 class MyHashSet {
 public:
-    vector<int>hashSet;
+    vector<list<int>>bucket;
+    const int SIZE = 1000;
     MyHashSet() {
-        hashSet.resize(1e6+1);
+       bucket.resize(SIZE);
     }
     
     void add(int key) {
-        hashSet[key] = 1;
+        int indx = key%SIZE;
+        for(auto num : bucket[indx]){
+            if(num == key) return;
+        }
+        bucket[key%SIZE].push_back(key);
     }
     
     void remove(int key) {
-         hashSet[key] = 0;
+        int indx = key%SIZE;
+        bucket[indx].remove(key);
     }
     
     bool contains(int key) {
-        if(hashSet[key]==1) return 1;
+        int indx = key%SIZE;
 
-        return 0; 
+        for(auto num : bucket[indx]){
+            if(num==key) return true;
+        }
+        return false;
     }
 };
 
