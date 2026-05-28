@@ -1,41 +1,47 @@
 class Solution {
 public:
+    bool isRowValid(int row, vector<vector<char>>&board){
+        unordered_map<char,int>rows;
+        for(int col=0;col<9;col++){
+            if(board[row][col] == '.') continue;
+            if(rows.find(board[row][col])!=rows.end()) return false;
+            rows[board[row][col]] = true;
+        }
+        return true;
+    }
+    bool isColValid(int col, vector<vector<char>>&board){
+       unordered_map<char,int>cols;
+        for(int row=0;row<9;row++){
+            if(board[row][col] == '.') continue;
+            if(cols.find(board[row][col])!=cols.end()) return false;
+            cols[board[row][col]] = true;
+        }
+        return true;
+    }
+    bool isgridValid(int row, int col, vector<vector<char>>&board){
+          unordered_map<char,int>rowCols;
+          int m = board.size();
+          int n = board[0].size();
+          for(int i=row; i < row + 3; i++){
+               for(int j=col; j < col + 3; j++){
+                 if(board[i][j] == '.') continue;
+                 if(rowCols.find(board[i][j])!=rowCols.end()) return false;
+                 rowCols[board[i][j]] = true;
+               }
+          }
+          return true;
+    }
     bool isValidSudoku(vector<vector<char>>& board) {
-       
-        for(int i=0;i<9;i++){
-            unordered_map<char,bool>rows;
-            for(int j=0;j<9;j++){
-                if(board[i][j]=='.') continue;
-                if(rows[board[i][j]]) return false;
-                rows[board[i][j]] = true;
-            }
+
+        for(int row =0; row<9; row++) if(!isRowValid(row, board)) return false;
+   
+        for(int col =0; col<9; col++) if(!isColValid(col, board)) return false;
+            
+        for(int row = 0; row < 9; row+=3){
+           for(int col = 0; col < 9; col+=3){
+               if(!isgridValid(row, col, board)) return false;
+           }
         }
-        cout<<"Rows\n";
-        
-        for(int j = 0;  j < 9; j++){
-            unordered_map<char,bool>cols;
-            for(int i = 0; i < 9; i++){
-                if(board[i][j]=='.') continue;
-                if(cols[board[i][j]]) return false;
-                cols[board[i][j]] = true;
-            }
-        }
-        
-        cout<<"Cols\n";
-        for(int i = 0; i < 9; i+=3){
-            for(int j = 0 ; j < 9; j+=3){
-                unordered_map<char, bool>grids;
-                cout<<i<<' '<<j<<'\n';
-                for(int row = i; row < i + 3; row++){
-                    for(int col = j; col < j + 3; col++){
-                       if(board[row][col]=='.') continue;
-                       if(grids[board[row][col]]) return false;
-                       grids[board[row][col]] = true;
-                    }
-                }
-            }
-        }
-        cout<<"Grid\n";
         return true;
     }
 };
