@@ -1,20 +1,24 @@
 class Solution {
 public:
     int solve(int indx,vector<int>&prices, int buy, vector<vector<int>>&dp){
-        int profit = 0;
-        if(indx ==prices.size()) return 0;
-        if(dp[indx][buy]!=-1) return dp[indx][buy];
-        if(buy){
-            profit+=max(-prices[indx] + solve(indx+1,prices,0,dp),solve(indx+1,prices,1,dp));
-        }else{
-            profit+=max( prices[indx] + solve(indx+1,prices,1,dp),solve(indx+1,prices,0,dp));
+        long n = prices.size();
+        for(int i=n-1;i>=0;i--){
+            for(int j=0;j<2;j++){
+                long profit = 0;
+                if(j){
+                    profit = max(-prices[i] + dp[i+1][0], dp[i+1][1]);
+                }else{
+                    profit = max(prices[i] + dp[i+1][1], dp[i+1][0]);
+                }
+                dp[i][j] = profit;
+            }
+
         }
-        dp[indx][buy] = profit;
-        return dp[indx][buy];
+        return dp[0][1]; 
     }
     int maxProfit(vector<int>& prices) {
         int n = prices.size();
-        vector<vector<int>>dp(n,vector<int>(2,-1));
+        vector<vector<int>>dp(n+1,vector<int>(2,0));
         return solve(0,prices,1, dp);
     }
 };
