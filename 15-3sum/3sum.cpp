@@ -1,22 +1,26 @@
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
+        int n = nums.size();
         sort(nums.begin(),nums.end());
         vector<vector<int>>res;
-        int n  = nums.size();
-        for(int i=0;i<nums.size();i++){
-            int low = i+1;
-            int high = nums.size() - 1;
-            while(low < high){
-                if(nums[low] + nums[high] + nums[i] > 0) high--;
-                else if(nums[low] + nums[high] + nums[i] < 0) low++;
-                else {
-                    res.push_back({nums[i], nums[low], nums[high]});
-                    do{low++;} while(low+1 < n && nums[low]==nums[low-1]);
-                    do{high--;} while(high-1 >=0 && nums[high]==nums[high+1]);
+        for(int i=0; i < n; i++){
+                int low = i+1;
+                int high = n - 1;
+                while( low < high){
+                    if(nums[i] + nums[low] + nums[high] > 0) high--;
+                    else if(nums[i] + nums[low] + nums[high] < 0) low++;
+                    else{
+                        res.push_back({nums[i],nums[low],nums[high]});
+                        int temp_l = nums[low];
+                        int temp_h = nums[high];
+
+                        do{low++;}while(low < high && temp_l==nums[low]);
+                        do{high--;}while(low < high && temp_h==nums[high]);
+                    }
                 }
-            }
-            while(i+1 < n && nums[i]==nums[i+1]) i++;
+            int temp_i = nums[i];
+            while( i + 1 < n && nums[i+1] == temp_i) i++;
         }
         return res;
     }
