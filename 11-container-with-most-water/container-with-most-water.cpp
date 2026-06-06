@@ -1,13 +1,15 @@
 class Solution {
 public:
     int maxArea(vector<int>& height) {
-        int i = 0;
-        int j = height.size() - 1;
-        int ans = 0;
-        while( i < height.size() && j >=0){
-            ans = max(ans, min(height[i], height[j])*(j-i));
-            height[i] > height[j]? j-- : i++;
+        int low = 0;
+        int high = height.size()-1;
+        int area = 0;
+        while( low < high ){
+            area =  max(area, min(height[low],height[high])*(high-low));
+            cout<<"area "<<area<<'\n';
+            if(height[low] < height[high]) low++;
+            else high--;
         }
-        return ans;
+        return area;
     }
 };
