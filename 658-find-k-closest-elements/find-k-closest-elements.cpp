@@ -2,25 +2,22 @@ class Solution {
 public:
     vector<int> findClosestElements(vector<int>& arr, int k, int x) {
         
-        for(int i = 0; i < arr.size(); i++){
-           arr[i]= arr[i] - x; 
-        }
-        
         int low = 0;
         int high = arr.size() - 1;
         vector<int>ans;
         while( low < high){
-            cout<<arr[low]<<' '<<arr[high]<<'\n';
+            int left = abs(arr[low] - x);
+            int right = abs(arr[high]- x);
             if(high - low + 1 == k) break;
-            else if(abs(arr[low]) > abs(arr[high])) low++;
-            else if(abs(arr[high]) > abs(arr[low])) high--;
-            else if(abs(arr[high])==abs(arr[low])){
-                if(arr[high] + x > arr[low] + x) high--;
+            else if(left > right) low++;
+            else if(right > left) high--;
+            else if(left==right){
+                if(arr[high] > arr[low]) high--;
                 else low++;
             }
         }
         for(int i = low; i<=high; i++){
-           ans.push_back(arr[i]+x);
+           ans.push_back(arr[i]);
         }
         return ans;
         
