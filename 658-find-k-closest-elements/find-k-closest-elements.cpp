@@ -1,17 +1,28 @@
 class Solution {
 public:
     vector<int> findClosestElements(vector<int>& arr, int k, int x) {
-        vector<int>ans = arr, aux;
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
+        
         for(int i = 0; i < arr.size(); i++){
-           ans[i] = abs(ans[i] - x);
-           pq.push({ans[i],arr[i]}); 
+           arr[i]= arr[i] - x; 
         }
-        while(!pq.empty()){
-            if(aux.size()<k) aux.push_back(pq.top().second);
-            pq.pop();
+        
+        int low = 0;
+        int high = arr.size() - 1;
+        vector<int>ans;
+        while( low < high){
+            cout<<arr[low]<<' '<<arr[high]<<'\n';
+            if(high - low + 1 == k) break;
+            else if(abs(arr[low]) > abs(arr[high])) low++;
+            else if(abs(arr[high]) > abs(arr[low])) high--;
+            else if(abs(arr[high])==abs(arr[low])){
+                if(arr[high] + x > arr[low] + x) high--;
+                else low++;
+            }
         }
-        sort(aux.begin(),aux.end());
-        return aux;
+        for(int i = low; i<=high; i++){
+           ans.push_back(arr[i]+x);
+        }
+        return ans;
+        
     }
 };
