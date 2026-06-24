@@ -10,11 +10,11 @@ public:
         while( j < n){
             while(!dq.empty() && nums[j] > nums[dq.back()]) dq.pop_back();
             dq.push_back(j);
+            while(!dq.empty() && dq.front()  < i ) dq.pop_front();
             if( j - i + 1 == k){
                 res.push_back(nums[dq.front()]);
                 i++;
             }
-            while(!dq.empty() && dq.front()  < i ) dq.pop_front();
             j++;
         }
         return res;
