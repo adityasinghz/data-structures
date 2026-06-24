@@ -1,15 +1,17 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        int i = 0;
+        unordered_map<char,int>freq;
+
         int j = 0;
+        int i = 0;
         int n = s.size();
         int maxLen = 0;
-        unordered_map<int,int>mp;
-        while( j < n ){
-            while(mp[s[j]]){mp[s[i]] = false; i++;}
+        while( j < n){
+            if(freq.find(s[j]) != freq.end() && i <= freq[s[j]])  i = freq[s[j]] + 1;
+            cout<<" j "<<j<<' '<<" i "<<i<<'\n';
             maxLen = max(maxLen, j - i + 1);
-            mp[s[j]] = true;
+            freq[s[j]] = j;
             j++;
         }
         return maxLen;
