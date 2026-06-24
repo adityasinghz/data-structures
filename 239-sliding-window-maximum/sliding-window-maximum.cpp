@@ -4,19 +4,18 @@ public:
         int i = 0;
         int j = 0;
         int n = nums.size();
+        int maxNum = INT_MIN;
+        deque<int>dq;
         vector<int>res;
-        priority_queue<pair<int,int>>pq;
-        while( j  <  n ){
-           pq.push(make_pair(nums[j], j));
-           if(j - i  + 1 == k){
-              res.push_back(pq.top().first);
-              i++;
-           }
-           while(!pq.empty() && pq.top().second < i){
-             cout<<pq.top().first<<' '<<pq.top().second<<' '<<i<<'\n';
-             pq.pop();
-           }
-           j++;
+        while( j < n){
+            while(!dq.empty() && nums[j] > nums[dq.back()]) dq.pop_back();
+            dq.push_back(j);
+            if( j - i + 1 == k){
+                res.push_back(nums[dq.front()]);
+                i++;
+            }
+            while(!dq.empty() && dq.front()  < i ) dq.pop_front();
+            j++;
         }
         return res;
     }
