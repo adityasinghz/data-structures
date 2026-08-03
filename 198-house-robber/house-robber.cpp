@@ -1,13 +1,16 @@
 class Solution {
 public:
-    int func(int n , vector<int>&nums,vector<int>&dp){
-        if( n < 0) return 0;
-        if(dp[n]!=-1) return dp[n]; 
-        return dp[n] = max(func(n-1,nums,dp), nums[n] + func(n-2,nums,dp));
-    }
     int rob(vector<int>& nums) {
         int n = nums.size();
-        vector<int>dp(101,-1);
-        return func(n - 1 , nums, dp);
+
+        vector<int>dp(n,0);
+        dp[0] = nums[0];
+        for(int i=1; i < n; i++){
+            int pick = nums[i];
+            if(i > 1) pick+=dp[i-2];
+            int notPick = dp[i-1];
+            dp[i] = max(pick, notPick);
+        }
+        return dp[n-1];
     }
 };
